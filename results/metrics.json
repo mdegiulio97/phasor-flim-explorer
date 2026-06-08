@@ -1,0 +1,33 @@
+{
+  "per_level": [
+    {
+      "photons": 300,
+      "mae_phasor": 0.10027551224548091,
+      "mae_fit": 0.1364717223520992,
+      "time_phasor_s": 0.0011,
+      "time_fit_s": 0.0369
+    },
+    {
+      "photons": 800,
+      "mae_phasor": 0.0714124978136619,
+      "mae_fit": 0.09560054385689092,
+      "time_phasor_s": 0.001,
+      "time_fit_s": 0.0321
+    },
+    {
+      "photons": 2000,
+      "mae_phasor": 0.050449733220820796,
+      "mae_fit": 0.06496430300598079,
+      "time_phasor_s": 0.0011,
+      "time_fit_s": 0.0317
+    },
+    {
+      "photons": 5000,
+      "mae_phasor": 0.037001656681485015,
+      "mae_fit": 0.042056199471428746,
+      "time_phasor_s": 0.0009,
+      "time_fit_s": 0.0321
+    }
+  ],
+  "mean_fit_vs_phasor_speedup": 32.5
+}
