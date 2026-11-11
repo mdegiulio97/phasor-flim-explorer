@@ -1,15 +1,15 @@
-"""Trasformata fasoriale per dati FLIM.
+"""Phasor transform for FLIM data.
 
-Il phasor di un decadimento I(t) campionato su un periodo del laser è la coppia
+The phasor of a decay I(t) sampled over one laser period is the pair
 
     g = sum_t I(t) cos(n * omega * t) / sum_t I(t)
     s = sum_t I(t) sin(n * omega * t) / sum_t I(t)
 
-con omega = 2*pi/period e n l'ordine armonico. Per un decadimento mono-esponenziale
-il punto (g, s) cade sul "cerchio universale" (semicerchio di centro (0.5, 0) e
-raggio 0.5). Una miscela di specie cade nella combinazione lineare dei phasor
-delle componenti, pesata dalle frazioni di fotoni — proprietà che rende l'unmixing
-fasoriale lineare e *fit-free*.
+with omega = 2*pi/period and n the harmonic order. For a mono-exponential decay
+the point (g, s) falls on the "universal circle" (semicircle centered at (0.5, 0)
+with radius 0.5). A mixture of species falls on the linear combination of the
+component phasors, weighted by the photon fractions; this property makes phasor
+unmixing linear and *fit-free*.
 """
 
 from __future__ import annotations
@@ -18,10 +18,10 @@ import numpy as np
 
 
 def single_lifetime_phasor(tau: float, freq_mhz: float = 80.0, harmonic: int = 1) -> tuple[float, float]:
-    """Posizione fasoriale analitica di un mono-esponenziale di vita `tau` (ns).
+    """Analytical phasor position of a mono-exponential with lifetime `tau` (ns).
 
     g = 1 / (1 + (omega*tau)^2),  s = (omega*tau) / (1 + (omega*tau)^2)
-    con omega = 2*pi*freq*harmonic.
+    with omega = 2*pi*freq*harmonic.
     """
     omega = 2.0 * np.pi * (freq_mhz * 1e6) * harmonic  # rad/s
     tau_s = tau * 1e-9
@@ -33,9 +33,9 @@ def single_lifetime_phasor(tau: float, freq_mhz: float = 80.0, harmonic: int = 1
 def phasor_of_decay(
     decay: np.ndarray, t: np.ndarray, freq_mhz: float = 80.0, harmonic: int = 1
 ) -> tuple[float, float]:
-    """Phasor (g, s) di un singolo decadimento 1-D campionato sui bin `t` (ns)."""
+    """Phasor (g, s) of a single 1-D decay sampled on the bins `t` (ns)."""
     decay = np.asarray(decay, dtype=float)
-    period = t[-1] - t[0] + (t[1] - t[0])  # periodo coperto dai bin
+    period = t[-1] - t[0] + (t[1] - t[0])  # period covered by the bins
     omega = 2.0 * np.pi / period
     total = decay.sum()
     if total <= 0:
@@ -48,9 +48,9 @@ def phasor_of_decay(
 def phasor_image(
     decay: np.ndarray, t: np.ndarray, freq_mhz: float = 80.0, harmonic: int = 1
 ) -> tuple[np.ndarray, np.ndarray]:
-    """Mappe fasoriali (g, s) per uno stack FLIM (H, W, T).
+    """Phasor maps (g, s) for a FLIM stack (H, W, T).
 
-    Ritorna due array (H, W). I pixel a intensità nulla diventano NaN.
+    Returns two (H, W) arrays. Zero-intensity pixels become NaN.
     """
     decay = np.asarray(decay, dtype=float)
     t = np.asarray(t, dtype=float)
@@ -69,6 +69,6 @@ def phasor_image(
 
 
 def universal_circle(n: int = 200) -> tuple[np.ndarray, np.ndarray]:
-    """Coordinate del semicerchio universale per il disegno del phasor plot."""
+    """Coordinates of the universal semicircle for drawing the phasor plot."""
     phi = np.linspace(0.0, np.pi, n)
     return 0.5 + 0.5 * np.cos(phi), 0.5 * np.sin(phi)

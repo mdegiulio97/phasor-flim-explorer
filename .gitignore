@@ -1,4 +1,4 @@
-# Dati: mai committare i dataset (sono rigenerabili), solo gli script
+# Data: never commit the datasets (they can be regenerated), only the scripts
 data/
 !data/.gitkeep
 
@@ -12,7 +12,7 @@ __pycache__/
 .ruff_cache/
 .ipynb_checkpoints/
 
-# Modelli e artefatti pesanti
+# Models and large artifacts
 *.pt
 *.pth
 *.ckpt

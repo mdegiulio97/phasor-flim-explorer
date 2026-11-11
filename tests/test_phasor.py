@@ -1,4 +1,4 @@
-"""Test di correttezza della trasformata fasoriale."""
+"""Correctness tests for the phasor transform."""
 
 import numpy as np
 
@@ -9,7 +9,7 @@ from phasor_flim.phasor import (
 
 
 def test_single_lifetime_lies_on_universal_circle():
-    # Ogni mono-esponenziale deve cadere sul semicerchio centro (0.5, 0) raggio 0.5.
+    # Every mono-exponential must fall on the semicircle with center (0.5, 0), radius 0.5.
     for tau in [0.5, 1.0, 2.0, 4.0]:
         g, s = single_lifetime_phasor(tau, freq_mhz=80.0)
         r = np.hypot(g - 0.5, s - 0.0)
@@ -17,7 +17,7 @@ def test_single_lifetime_lies_on_universal_circle():
 
 
 def test_longer_lifetime_has_larger_phase():
-    # Vite più lunghe -> angolo di fase maggiore sul phasor plot.
+    # Longer lifetimes -> larger phase angle on the phasor plot.
     _, s_short = single_lifetime_phasor(0.5)
     _, s_long = single_lifetime_phasor(4.0)
     angle_short = np.arctan2(s_short, single_lifetime_phasor(0.5)[0])
@@ -26,7 +26,7 @@ def test_longer_lifetime_has_larger_phase():
 
 
 def test_discrete_phasor_near_universal_circle():
-    # Il phasor discreto di un decadimento campionato deve stare vicino al cerchio.
+    # The discrete phasor of a sampled decay must lie close to the circle.
     freq = 80.0
     period = 1e3 / freq
     t = np.linspace(0.0, period, 512, endpoint=False)

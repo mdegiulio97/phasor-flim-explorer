@@ -1,4 +1,4 @@
-"""Metriche di accuratezza dell'unmixing rispetto alla ground truth."""
+"""Accuracy metrics for the unmixing against the ground truth."""
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ import numpy as np
 
 
 def fraction_mae(estimated: np.ndarray, truth: np.ndarray) -> float:
-    """Mean Absolute Error medio sulle mappe di frazione (ignora i NaN)."""
+    """Mean Absolute Error averaged over the fraction maps (ignores NaN)."""
     est = np.asarray(estimated, dtype=float)
     gt = np.asarray(truth, dtype=float)
     mask = ~np.isnan(est).any(axis=-1)
@@ -16,7 +16,7 @@ def fraction_mae(estimated: np.ndarray, truth: np.ndarray) -> float:
 
 
 def per_species_mae(estimated: np.ndarray, truth: np.ndarray) -> np.ndarray:
-    """MAE per ciascuna specie (array di lunghezza K)."""
+    """MAE for each species (array of length K)."""
     est = np.asarray(estimated, dtype=float)
     gt = np.asarray(truth, dtype=float)
     mask = ~np.isnan(est).any(axis=-1)

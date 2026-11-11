@@ -1,15 +1,14 @@
-"""Baseline: stima delle frazioni via fitting del decadimento (curva intera).
+"""Baseline: fraction estimation by fitting the decay (full curve).
 
-Con le vite medie note, il profilo di decadimento di ogni pixel è una
-combinazione lineare non negativa delle curve di base delle specie:
+With known lifetimes, the decay profile of each pixel is a non-negative linear
+combination of the basis curves of the species:
 
     y(t) ≈ sum_k  c_k * g_k(t)          c_k >= 0
 
-risolta ai minimi quadrati non negativi (NNLS). Le frazioni di fotoni sono
-c_k normalizzate. È il metodo "classico" basato sul fitting della curva, usato
-come confronto rispetto all'unmixing fasoriale fit-free: entrambi sfruttano la
-stessa conoscenza a priori (le vite medie), così il confronto isola il *metodo*
-di stima, non l'informazione disponibile.
+solved by non-negative least squares (NNLS). The photon fractions are the
+normalized c_k. This is the "classical" curve-fitting method, used as a comparison
+for fit-free phasor unmixing: both use the same prior knowledge (the lifetimes),
+so the comparison isolates the estimation *method*, not the available information.
 """
 
 from __future__ import annotations
@@ -24,18 +23,18 @@ def fit_fractions(
     lifetimes: np.ndarray,
     max_pixels: int | None = None,
 ) -> np.ndarray:
-    """Stima le frazioni per pixel via NNLS sul decadimento completo.
+    """Estimate per-pixel fractions by NNLS on the full decay.
 
-    Parametri
-    ---------
-    decay : (H, W, T) stack FLIM.
-    t : (T,) asse dei tempi (ns).
-    lifetimes : (K,) vite medie note.
-    max_pixels : se impostato, processa solo i primi `max_pixels` (debug/velocità).
+    Parameters
+    ----------
+    decay : (H, W, T) FLIM stack.
+    t : (T,) time axis (ns).
+    lifetimes : (K,) known lifetimes.
+    max_pixels : if set, process only the first `max_pixels` pixels (debug/speed).
 
-    Ritorna
+    Returns
     -------
-    fractions : (H, W, K) con NaN sui pixel a intensità nulla.
+    fractions : (H, W, K) with NaN on zero-intensity pixels.
     """
     decay = np.asarray(decay, dtype=float)
     t = np.asarray(t, dtype=float)

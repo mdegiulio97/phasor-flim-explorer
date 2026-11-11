@@ -1,4 +1,4 @@
-"""Test dell'unmixing fasoriale e della linearità della miscela."""
+"""Tests for phasor unmixing and for the linearity of the mixture."""
 
 import numpy as np
 
@@ -9,11 +9,11 @@ from phasor_flim.metrics import fraction_mae
 
 
 def test_mixture_phasor_is_linear():
-    # Il phasor (discreto) di una miscela = media pesata dei phasor (discreti)
-    # delle componenti, pesata dalle frazioni di fotoni. È la proprietà che rende
-    # lineare l'unmixing. La si verifica sui phasor discreti delle componenti pure
-    # calcolati dallo stesso segnale campionato (non sulla formula analitica
-    # continua, che differisce per la discretizzazione).
+    # The (discrete) phasor of a mixture = average of the (discrete) phasors of
+    # the components, weighted by the photon fractions. This is the property that
+    # makes unmixing linear. It is checked on the discrete phasors of the pure
+    # components computed from the same sampled signal (not on the continuous
+    # analytical formula, which differs because of the discretization).
     freq = 80.0
     period = 1e3 / freq
     t = np.linspace(0.0, period, 256, endpoint=False)
@@ -49,5 +49,5 @@ def test_unmix_robust_under_poisson_noise():
     refs = reference_phasors(flim.lifetimes, flim.freq_mhz)
     est = unmix_fractions(g, s, refs)
     mae = fraction_mae(est, flim.fractions)
-    # Con rumore realistico l'errore cresce ma resta contenuto.
+    # With realistic noise the error grows but stays bounded.
     assert mae < 0.15
