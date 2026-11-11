@@ -1,15 +1,15 @@
-"""Unmixing fasoriale lineare delle frazioni di specie.
+"""Linear phasor unmixing of species fractions.
 
-Per K specie con phasor di riferimento P_k = (g_k, s_k), il phasor di un pixel
-miscela è P = sum_k f_k P_k con il vincolo sum_k f_k = 1. Le frazioni si
-ricavano risolvendo il sistema lineare (sovradeterminato per K>3, esatto per
-K<=3) ai minimi quadrati:
+For K species with reference phasors P_k = (g_k, s_k), the phasor of a mixed pixel
+is P = sum_k f_k P_k with the constraint sum_k f_k = 1. The fractions are obtained
+by solving the linear system (underdetermined for K>3, exact for K<=3) by least
+squares:
 
     | g_1 ... g_K |          | g |
     | s_1 ... s_K | * f  =   | s |
     |  1  ...  1  |          | 1 |
 
-Nessun fitting non lineare: è il vantaggio chiave dell'approccio fasoriale.
+No nonlinear fitting: this is the key advantage of the phasor approach.
 """
 
 from __future__ import annotations
@@ -22,7 +22,7 @@ from phasor_flim.phasor import single_lifetime_phasor
 def reference_phasors(
     lifetimes: np.ndarray, freq_mhz: float = 80.0, harmonic: int = 1
 ) -> np.ndarray:
-    """Phasor analitici (K, 2) delle specie pure date le loro vite medie."""
+    """Analytical phasors (K, 2) of the pure species given their lifetimes."""
     pts = [single_lifetime_phasor(float(tau), freq_mhz, harmonic) for tau in lifetimes]
     return np.asarray(pts, dtype=float)
 
@@ -33,15 +33,15 @@ def unmix_fractions(
     refs: np.ndarray,
     nonneg: bool = True,
 ) -> np.ndarray:
-    """Stima le frazioni di fotoni per pixel via unmixing fasoriale lineare.
+    """Estimate per-pixel photon fractions by linear phasor unmixing.
 
-    Parametri
-    ---------
-    g, s : array (H, W) delle coordinate fasoriali dei pixel.
-    refs : array (K, 2) dei phasor di riferimento delle specie pure.
-    nonneg : se True azzera le frazioni negative e rinormalizza (somma a 1).
+    Parameters
+    ----------
+    g, s : (H, W) arrays of the pixel phasor coordinates.
+    refs : (K, 2) array of the reference phasors of the pure species.
+    nonneg : if True, set negative fractions to zero and renormalize (sum to 1).
 
-    Ritorna
+    Returns
     -------
     fractions : array (H, W, K)
     """

@@ -1,7 +1,8 @@
-"""Genera il dataset FLIM sintetico e lo salva in data/ (idempotente).
+"""Generate the synthetic FLIM dataset and save it to data/ (idempotent).
 
-I dati sono sintetici (nessuna licenza esterna). Lo stack e la ground truth sono
-salvati in un singolo .npz. Rilanciare lo script non rigenera se il file esiste.
+The data are synthetic (no external license). The stack and the ground truth are
+saved in a single .npz file. Re-running the script does not regenerate the file if
+it already exists.
 """
 
 from __future__ import annotations
@@ -19,7 +20,7 @@ OUT = DATA_DIR / "synthetic_flim.npz"
 def main() -> None:
     DATA_DIR.mkdir(exist_ok=True)
     if OUT.exists():
-        print(f"Dataset già presente: {OUT}")
+        print(f"Dataset already present: {OUT}")
         return
     flim = make_synthetic_flim(seed=0)
     np.savez_compressed(
@@ -30,7 +31,7 @@ def main() -> None:
         lifetimes=flim.lifetimes,
         freq_mhz=flim.freq_mhz,
     )
-    print(f"Salvato dataset sintetico: {OUT}  (shape decay={flim.decay.shape})")
+    print(f"Saved synthetic dataset: {OUT}  (shape decay={flim.decay.shape})")
 
 
 if __name__ == "__main__":

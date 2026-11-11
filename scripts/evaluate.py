@@ -1,12 +1,12 @@
-"""Valutazione quantitativa: unmixing fasoriale vs fitting NNLS del decadimento.
+"""Quantitative evaluation: phasor unmixing vs NNLS decay fitting.
 
-Genera, su dati sintetici con ground truth, il MAE delle frazioni in funzione del
-numero di fotoni (livello di rumore) per i due metodi, misura i tempi e salva:
+On synthetic data with ground truth, computes the fraction MAE as a function of the
+number of photons (noise level) for both methods, measures run times and saves:
 - results/metrics.json
-- results/phasor_plot.png   (phasor plot dei pixel + cerchio universale)
+- results/phasor_plot.png   (phasor plot of the pixels + universal circle)
 - results/mae_vs_photons.png
 
-Esegui:  uv run python scripts/evaluate.py
+Run:  uv run python scripts/evaluate.py
 """
 
 from __future__ import annotations
@@ -74,15 +74,15 @@ def make_phasor_figure() -> None:
     cx, cy = universal_circle()
 
     fig, ax = plt.subplots(figsize=(6, 5))
-    ax.plot(cx, cy, "k-", lw=1, label="cerchio universale")
-    ax.scatter(g.ravel(), s.ravel(), s=4, alpha=0.25, c="tab:blue", label="pixel")
+    ax.plot(cx, cy, "k-", lw=1, label="universal circle")
+    ax.scatter(g.ravel(), s.ravel(), s=4, alpha=0.25, c="tab:blue", label="pixels")
     ax.scatter(refs[:, 0], refs[:, 1], c="tab:red", s=80, marker="*", zorder=5,
-               label="specie pure")
+               label="pure species")
     for tau, (gx, gy) in zip(flim.lifetimes, refs):
         ax.annotate(f"{tau:.1f} ns", (gx, gy), textcoords="offset points", xytext=(6, 6))
     ax.set_xlabel("g")
     ax.set_ylabel("s")
-    ax.set_title("Phasor plot — FLIM sintetico (80 MHz)")
+    ax.set_title("Phasor plot — synthetic FLIM (80 MHz)")
     ax.set_aspect("equal")
     ax.legend(loc="upper right", fontsize=8)
     fig.tight_layout()
@@ -95,11 +95,11 @@ def make_mae_figure(metrics: dict) -> None:
     x = [r["photons"] for r in rows]
     fig, ax = plt.subplots(figsize=(6, 4))
     ax.plot(x, [r["mae_phasor"] for r in rows], "o-", label="Phasor (fit-free)")
-    ax.plot(x, [r["mae_fit"] for r in rows], "s--", label="Fitting NNLS")
+    ax.plot(x, [r["mae_fit"] for r in rows], "s--", label="NNLS fitting")
     ax.set_xscale("log")
-    ax.set_xlabel("fotoni per pixel (≈ inverso del rumore)")
-    ax.set_ylabel("MAE frazioni ↓")
-    ax.set_title("Accuratezza unmixing vs livello di fotoni")
+    ax.set_xlabel("photons per pixel (≈ inverse of noise)")
+    ax.set_ylabel("fraction MAE ↓")
+    ax.set_title("Unmixing accuracy vs photon level")
     ax.legend()
     ax.grid(True, alpha=0.3)
     fig.tight_layout()
@@ -113,8 +113,8 @@ def main() -> None:
     make_phasor_figure()
     make_mae_figure(metrics)
     (RESULTS / "metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
-    print(f"\nSalvati: {RESULTS / 'metrics.json'}, phasor_plot.png, mae_vs_photons.png")
-    print(f"Speedup medio fit/phasor: {metrics['mean_fit_vs_phasor_speedup']}×")
+    print(f"\nSaved: {RESULTS / 'metrics.json'}, phasor_plot.png, mae_vs_photons.png")
+    print(f"Mean fit/phasor speedup: {metrics['mean_fit_vs_phasor_speedup']}×")
 
 
 if __name__ == "__main__":

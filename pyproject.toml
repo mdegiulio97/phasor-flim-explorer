@@ -1,7 +1,7 @@
 [project]
 name = "phasor-flim"
 version = "0.1.0"
-description = "Phasor analysis explorer per dati FLIM: trasformata fasoriale, unmixing fit-free e confronto col fitting esponenziale"
+description = "Phasor analysis explorer for FLIM data: phasor transform, fit-free unmixing and comparison with exponential fitting"
 readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "MIT" }
@@ -29,8 +29,8 @@ packages = ["src/phasor_flim"]
 [tool.ruff]
 line-length = 100
 target-version = "py312"
-# I notebook usano uno stile a celle (statement compatti con ';' per le figure):
-# esclusi dal lint per non snaturarli.
+# The notebooks use a cell style (compact statements with ';' for figures):
+# excluded from linting to keep them as they are.
 extend-exclude = ["notebooks"]
 
 [tool.pytest.ini_options]
