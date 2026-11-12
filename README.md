@@ -1,4 +1,6 @@
-# 🔬 Phasor FLIM Explorer
+# phasor-flim-explorer
+
+[![CI](https://github.com/mdegiulio97/phasor-flim-explorer/actions/workflows/ci.yml/badge.svg)](https://github.com/mdegiulio97/phasor-flim-explorer/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 > **Fit-free phasor analysis** of FLIM (Fluorescence Lifetime Imaging Microscopy) data: phasor transform, graphical unmixing of species and a quantitative comparison with classical exponential fitting, all on synthetic data with ground truth, runnable without a GPU.
 
