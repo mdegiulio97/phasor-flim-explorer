@@ -59,7 +59,7 @@ figures are in `results/` (`metrics.json`, `phasor_plot.png`, `mae_vs_photons.pn
 | 2000 | **0.050** | 0.065 |
 | 5000 | **0.037** | 0.042 |
 
-The phasor approach is more accurate at **every** noise level and is on average **~32× faster** than NNLS fitting, while using the same prior information (the reference lifetimes).
+The phasor approach is more accurate at **every** noise level and is on average **~23× faster** than NNLS fitting (wall-clock on CPU, machine-dependent), while using the same prior information (the reference lifetimes).
 
 ![mae](results/mae_vs_photons.png)
 
